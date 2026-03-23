@@ -7,6 +7,36 @@ const screens = {
 
 const navButtons = document.querySelectorAll(".nav-btn");
 
+
+function isLoggedIn() {
+  return sessionStorage.getItem("buggytasks_logged_in") === "1";
+}
+
+function requireLoginOrRedirect(targetScreen) {
+  // Экраны, доступ к которым ограничен
+  const lockedScreens = new Set(["tasks", "profile"]);
+  if (!lockedScreens.has(targetScreen)) return true;
+  if (isLoggedIn()) return true;
+
+  // UX для демонстрации: показываем сообщение на экране входа
+  loginError.textContent = "Сначала выполните вход.";
+
+  const welcomeBtn = document.querySelector('.nav-btn[data-screen="welcome"]');
+  const welcomeScreen = document.getElementById("screen-welcome");
+  if (welcomeScreen) welcomeScreen.classList.add("screen-active");
+  navButtons.forEach((b) => {
+    const t = b.getAttribute("data-screen");
+    if (t === "welcome") b.classList.add("nav-btn-active");
+    else b.classList.remove("nav-btn-active");
+  });
+  Object.values(screens).forEach((el) => {
+    if (el.id !== "screen-welcome") el.classList.remove("screen-active");
+  });
+
+  // Возвращаем false, чтобы вызывающий обработчик не переключал экраны
+  return false;
+}
+
 navButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const target = btn.getAttribute("data-screen");
