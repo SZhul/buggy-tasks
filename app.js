@@ -1,4 +1,4 @@
-// Navegation between "screens"
+// Навигация между экранами
 const screens = {
   welcome: document.getElementById("screen-welcome"),
   tasks: document.getElementById("screen-tasks"),
@@ -23,7 +23,7 @@ navButtons.forEach((btn) => {
   });
 });
 
-// Welcome / Login screen
+// Стартовая страничка
 const loginForm = document.getElementById("login-form");
 const loginError = document.getElementById("login-error");
 const loginSuccess = document.getElementById("login-success");
