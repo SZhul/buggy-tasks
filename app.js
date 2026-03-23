@@ -81,7 +81,6 @@ function renderTasks() {
   taskListEl.innerHTML = "";
 
   let visible = tasks.filter((task) => {
-    // BUG 4 (новый): фильтр по приоритету "Средний" показывает задачи с приоритетом "Высокий"
     if (priorityFilter === "high" && task.priority !== "high") {
       return false;
     }
