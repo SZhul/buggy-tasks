@@ -41,21 +41,17 @@ loginForm.addEventListener("submit", (e) => {
   const email = loginForm.elements["email"].value;
   const password = loginForm.elements["password"].value;
 
-  // BUG 1: Валидация email только по длине, формат не проверяется
   if (email.length < 5) {
     loginError.textContent = "Введите e-mail не короче 5 символов.";
     return;
   }
 
-  // BUG 2: Пароль считается валидным при длине >= 4 вместо 8
   if (password.length < 4) {
     loginError.textContent = "Пароль должен быть минимум из 8 символов.";
     return;
   }
 
   loginSuccess.textContent = "Успешный вход (фиктивный).";
-
-  // BUG 3: Чекбокс "Запомнить меня" никак не используется
 
   // Переход на экран задач
   const tasksBtn = document.querySelector('.nav-btn[data-screen="tasks"]');
@@ -64,7 +60,6 @@ loginForm.addEventListener("submit", (e) => {
   }
 });
 
-// Tasks screen
 const taskForm = document.getElementById("task-form");
 const taskListEl = document.getElementById("task-list");
 const emptyStateEl = document.getElementById("empty-state");
@@ -189,7 +184,6 @@ function updateStats() {
   const done = tasks.filter((t) => t.done).length;
   const open = total - done;
 
-  // BUG 5: Значения открытых и выполненных задач перепутаны местами
   statTotalEl.textContent = total;
   statOpenEl.textContent = String(done);
   statDoneEl.textContent = String(open);
@@ -201,7 +195,6 @@ taskForm.addEventListener("submit", (e) => {
   const title = taskForm.elements["title"].value.trim();
   const priority = taskForm.elements["priority"].value;
 
-  // BUG 6: Разрешает добавлять пустое название (только пробелы)
   if (title.length === 0) {
     // формально сообщение не показывается пользователю
     console.warn("Название задачи пустое");
@@ -209,7 +202,6 @@ taskForm.addEventListener("submit", (e) => {
 
   const newTask = {
     id: nextId++,
-    // При пустом названии задача создаётся с "ругательным" именем
     title: title || "#%$!!?",
     priority,
     done: false,
@@ -222,14 +214,12 @@ taskForm.addEventListener("submit", (e) => {
 });
 
 resetTasksBtn.addEventListener("click", () => {
-  // BUG 7: Сброс очищает только массив, но не UI
   tasks = [];
   updateStats();
 });
 
 filterPriorityEl.addEventListener("change", renderTasks);
 searchTextEl.addEventListener("input", () => {
-  // BUG 8: Поиск чувствителен к регистру (умышленно убран toLowerCase в фильтре)
   renderTasks();
 });
 
@@ -247,7 +237,6 @@ profileForm.addEventListener("submit", (e) => {
   const fullName = document.getElementById("profile-fullname").value.trim();
   const notify = document.getElementById("profile-notify").value;
 
-  // BUG 9: Имя в профиле не обновляется
   if (!fullName) {
     profileMessageEl.textContent = "Имя не может быть пустым.";
     return;
@@ -264,8 +253,6 @@ profileForm.addEventListener("submit", (e) => {
 });
 
 darkModeCheckbox.addEventListener("change", () => {
-  // BUG 10: Переключатель тёмной темы визуально работает,
-  // но тема приложения не меняется
   console.log("Dark mode changed:", darkModeCheckbox.checked);
 });
 
