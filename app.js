@@ -41,6 +41,7 @@ loginForm.addEventListener("submit", (e) => {
   const email = loginForm.elements["email"].value;
   const password = loginForm.elements["password"].value;
 
+    // BUG 1: если 10 раз ввести неверный пароль или email, то у нас пропадают CSS-стили
   if (email.length < 5) {
     loginError.textContent = "Введите e-mail не короче 5 символов.";
     return;
@@ -188,6 +189,7 @@ function updateStats() {
   statDoneEl.textContent = String(open);
 }
 
+ // BUG 2: Если имя пользователя "Гость" изменить на "Хозяин", локаль переключается на испанский
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -219,6 +221,7 @@ resetTasksBtn.addEventListener("click", () => {
 
 filterPriorityEl.addEventListener("change", renderTasks);
 searchTextEl.addEventListener("input", () => {
+  // BUG 3: название задач нельзя писать на английском
   renderTasks();
 });
 
@@ -251,6 +254,7 @@ profileForm.addEventListener("submit", (e) => {
   profileMessageEl.textContent = "Настройки сохранены.";
 });
 
+ // BUG 4: Этот баг проявляется прямо в ответе кандидата, если он использовал нейросети в поисках решения для задачи
 darkModeCheckbox.addEventListener("change", () => {
   console.log("Dark mode changed:", darkModeCheckbox.checked);
 });
@@ -262,6 +266,8 @@ tasks = [
   { id: nextId++, title: "Проверить фильтры и поиск задач", priority: "low", done: false },
   { id: nextId++, title: "Проверить профиль и тему", priority: "medium", done: false },
 ];
+
+  // BUG 6: JS ломается, если 6 раз нажать F5
 
 updateStats();
 renderTasks();
